@@ -5,7 +5,6 @@ import {
   AisInstantSearchSsr,
   AisHits,
   AisConfigure,
-  // add other widgets that change the state (RefinementList, SearchBox, etc.)
   createServerRootMixin,
   // @ts-ignore
 } from 'vue-instantsearch/vue3/es'
@@ -16,16 +15,16 @@ const nuxtApp = useNuxtApp()
 const searchClient = nuxtApp.$algolia
 const indexName = indices.value.products
 
-// 1) InstantSearch SSR instance via createServerRootMixin
+// // 1) InstantSearch SSR instance via createServerRootMixin
 const { instantsearch } = createServerRootMixin({
   searchClient,
   indexName,
 }).data()
 
-// 2) On SSR, make the instance available to <AisInstantSearchSsr> via provide
-  provide('$_ais_ssrInstantSearchInstance', instantsearch as unknown as any)
+// // 2) On SSR, make the instance available to <AisInstantSearchSsr> via provide
+provide('$_ais_ssrInstantSearchInstance', instantsearch as unknown as any)
 
-// 3) Calculate the state only on the server (Nuxt rejects on the client)
+// // 3) Calculate the state only on the server (Nuxt rejects on the client)
 const { data: algoliaState } = await useAsyncData('algolia-state', async () => {
   return instantsearch.findResultsState({
     // Minimal component that exposes `this.instantsearch` and uses the same widgets
