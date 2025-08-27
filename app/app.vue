@@ -1,6 +1,8 @@
+<script setup lang="ts">
+const { indices } = useAlgoliaIndex()
+const { data } = await useAsyncAlgoliaSearch({ indexName: indices.value.products, query: 'Samsung' })
+</script>
+
 <template>
-  <div>
-    <NuxtRouteAnnouncer />
-    <NuxtWelcome />
-  </div>
+  <div>{{ data }}</div>
 </template>
