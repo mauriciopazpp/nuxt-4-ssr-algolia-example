@@ -7,12 +7,12 @@ import {
   AisConfigure,
   // add other widgets that change the state (RefinementList, SearchBox, etc.)
   createServerRootMixin,
+  // @ts-ignore
 } from 'vue-instantsearch/vue3/es'
 
 const { indices } = useAlgoliaIndex()
 
 const nuxtApp = useNuxtApp()
-// @ts-expect-error — $algolia is injected by your existing plugin
 const searchClient = nuxtApp.$algolia
 const indexName = indices.value.products
 
@@ -23,9 +23,7 @@ const { instantsearch } = createServerRootMixin({
 }).data()
 
 // 2) On SSR, make the instance available to <AisInstantSearchSsr> via provide
-if (import.meta.server) {
   provide('$_ais_ssrInstantSearchInstance', instantsearch as unknown as any)
-}
 
 // 3) Calculate the state only on the server (Nuxt rejects on the client)
 const { data: algoliaState } = await useAsyncData('algolia-state', async () => {
@@ -55,7 +53,7 @@ const { data: algoliaState } = await useAsyncData('algolia-state', async () => {
   <section class="container mx-auto p-6">
     <!-- 4) Render SSR with the same set of widgets used in findResultsState -->
     <AisInstantSearchSsr :state="algoliaState">
-      <AisConfigure :hits-per-page="12" />
+      <AisConfigure />
       <AisHits />
     </AisInstantSearchSsr>
   </section>
