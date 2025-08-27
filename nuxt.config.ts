@@ -9,9 +9,6 @@ export default defineNuxtConfig({
     '@nuxtjs/algolia'
   ],
   runtimeConfig: {
-    cybersource: {
-      environment: '',
-    },
     algolia: {
       adminApiKey: '',
     },
@@ -32,23 +29,14 @@ export default defineNuxtConfig({
           suggestions: 'dev_ab_products_query_suggestions',
         },
       },
-      google: {
-        mapsApiKey: '',
-      },
     },
   },
-  // docs: https://algolia.nuxtjs.org/getting-started/configuration
   algolia: {
-    // adding applicationId and apiKey here and using process.env is
-    // inconsistent with Nuxt convension, but for now!
-    // issue: https://github.com/nuxt-modules/algolia/issues/218
     applicationId: process.env.NUXT_PUBLIC_ALGOLIA_APPLICATION_ID || '',
     apiKey: process.env.NUXT_PUBLIC_ALGOLIA_API_KEY || '',
 
     useFetch: true,
     lite: false,
-    // if enabled, the cache will not cache by region (ab, bc),
-    // @TODO: revisit when implementing the PDP and search page
     cache: false,
     instantSearch: {
       theme: 'reset',
@@ -57,7 +45,6 @@ export default defineNuxtConfig({
   vite: {
     resolve: {
       alias: {
-        // this is needed for SSR algolia on Cloudflare since node-fetch is not supported
         'node-fetch': 'isomorphic-fetch',
       },
     },
